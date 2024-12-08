@@ -2,7 +2,7 @@
 
 //% color=50 weight=80
 //% icon="\uf1eb"
-namespace mCarInfrared { 
+namespace mShieldInfrared { 
 int ir_code = 0x00;
 int ir_addr = 0x00;
 int data;
