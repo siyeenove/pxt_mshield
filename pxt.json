@@ -12,7 +12,9 @@
         "README.md",
         "main.blocks",
         "main.ts",
-        "IR.cpp"
+        "IR.cpp",
+        "shims.d.ts",
+        "enums.d.ts"
     ],
     "testFiles": [
         "test.ts"
