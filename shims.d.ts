@@ -4,7 +4,7 @@
 
     //% color=50 weight=80
     //% icon="\uf1eb"
-declare namespace mCarInfrared {
+declare namespace mShieldInfrared {
 }
 
 // Auto-generated. Do not edit. Really.
