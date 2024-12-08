@@ -10,10 +10,10 @@ int data;
 int logic_value(){                       //A function to read the logical values "0" and "1".
     uint32_t lasttime = system_timer_current_time_us();
     uint32_t nowtime;
-    while(!uBit.io.P9.getDigitalValue());                           //Wait for the low level
+    while(!uBit.io.P12.getDigitalValue());                           //Wait for the low level
     nowtime = system_timer_current_time_us();
     if((nowtime - lasttime) > 400 && (nowtime - lasttime) < 700){   //low level 560us
-        while(uBit.io.P9.getDigitalValue());                        //high level, wait
+        while(uBit.io.P12.getDigitalValue());                        //high level, wait
         lasttime = system_timer_current_time_us();
         if((lasttime - nowtime)>400 && (lasttime - nowtime) < 700){ //low level 560us
             return 0;
@@ -51,7 +51,7 @@ void remote_decode(void){
     data = 0x00;
     uint32_t lasttime = system_timer_current_time_us();
     uint32_t nowtime;
-    while(uBit.io.P9.getDigitalValue()){//high level, wait
+    while(uBit.io.P12.getDigitalValue()){//high level, wait
         nowtime = system_timer_current_time_us();
         if((nowtime - lasttime) > 100000){//More than 100 milliseconds, indicating that no key was pressed.
             ir_code = 0xff00;
@@ -60,10 +60,10 @@ void remote_decode(void){
     }
     //If the high level does not last more than 100ms
     lasttime = system_timer_current_time_us();
-    while(!uBit.io.P9.getDigitalValue());//low level, wait
+    while(!uBit.io.P12.getDigitalValue());//low level, wait
     nowtime = system_timer_current_time_us();
     if((nowtime - lasttime) < 10000 && (nowtime - lasttime) > 8000){//9ms
-        while(uBit.io.P9.getDigitalValue());//high level, wait
+        while(uBit.io.P12.getDigitalValue());//high level, wait
         lasttime = system_timer_current_time_us();
         // 4.5ms, the infrared protocol header is received and the data is newly sent. Start parsing logic 0 and 1
         if((lasttime - nowtime) > 4000 && (lasttime - nowtime) < 5000){
@@ -73,7 +73,7 @@ void remote_decode(void){
             return;//ir_code;
         //2.25ms, which means the same packet was sent as the previous one
         }else if((lasttime - nowtime) > 2000 && (lasttime - nowtime) < 2500){
-            while(!uBit.io.P9.getDigitalValue());//low level, wait
+            while(!uBit.io.P12.getDigitalValue());//low level, wait
             nowtime = system_timer_current_time_us();
             if((nowtime - lasttime) > 500 && (nowtime - lasttime) < 700){//560us
                 //uBit.serial.printf("addr=0x%X,code = 0x%X\r\n",ir_addr,ir_code);
@@ -95,7 +95,7 @@ int readPulseIn(int status){
   uint32_t lasttime,nowtime,temp;
   if(status == 1){//HIGH
         lasttime = system_timer_current_time_us();
-	while(!uBit.io.P9.getDigitalValue()){ 
+	while(!uBit.io.P12.getDigitalValue()){ 
            temp = system_timer_current_time_us();
            if((temp - lasttime) > 70000){
 	     //uBit.serial.printf("time out 0 %d\r\n",(temp-lasttime));
@@ -103,7 +103,7 @@ int readPulseIn(int status){
            }
         }
         lasttime = system_timer_current_time_us();
-	while(uBit.io.P9.getDigitalValue()){
+	while(uBit.io.P12.getDigitalValue()){
            if((system_timer_current_time_us() - lasttime) > 70000){
 	     //uBit.serial.printf("time out 1");
 	     return -1;
@@ -112,14 +112,14 @@ int readPulseIn(int status){
         nowtime = system_timer_current_time_us();
 	
   }else{//LOW
-	while(uBit.io.P9.getDigitalValue()){
+	while(uBit.io.P12.getDigitalValue()){
            if((system_timer_current_time_us() - lasttime) > 70000){
 	     //uBit.serial.printf("time out 3");
 	     return -1;
            }
         }
 	lasttime = system_timer_current_time_us();
-	while(!uBit.io.P9.getDigitalValue()){
+	while(!uBit.io.P12.getDigitalValue()){
            if((system_timer_current_time_us() - lasttime) > 70000){
 	     //uBit.serial.printf("time out 4");
 	     return -1;
