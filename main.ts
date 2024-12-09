@@ -1,153 +1,150 @@
 /*
-* This extension library was developed by the SIYEENOVE team and is only available for SIYEENOVE products.
-* Date: Dec 8, 2024  
+* This extension library was developed by the SIYEENOVE team.
+* Date: Dec 9, 2024  
 */
-enum MotorsDirection {
-    //%block="clockwise"
-    CC = 1,
-    //%block="counterclockwise"
-    CCW = 2,
-}
-
-enum Motors {
-    //%block="left motor"
-    LeftMotor = 1,
-    //%block="right motor"
-    RightMotor = 2,
-    //%block="all motors"
-    AllMotors = 3
-}
-
-enum LEDs {
-    //%block="20%_LED"
-    LED_20 = 1,
-    //%block="40%_LED"
-    LED_40 = 2,
-    //%block="60%_LED"
-    LED_60 = 3,
-    //%block="80%_LED"
-    LED_80 = 4
-}
-
-enum LedState {
-    //%block="ON"
-    ON = 1,
-    //%block="OFF"
-    OFF = 0
-}
-
-enum PwmIndex {
-    //% block="S1"
-    S1 = 1,
-    //% block="S2"
-    S2 = 2,
-    //% block="S3"
-    S3 = 3,
-    //% block="S4"
-    S4 = 4
-}
-
-enum ServoIndex {
-    //% block="S1"
-    S1 = 1,
-    //% block="S2"
-    S2 = 2,
-    //% block="S3"
-    S3 = 3,
-    //% block="S4"
-    S4 = 4
-}
-
-enum ServoType {
-    //% block="90°"
-    Servo90 = 1,
-    //% block="180°"
-    Servo180 = 2,
-    //% block="270°"
-    Servo270 = 3
-}
-
-const enum MshieldIRButtons {
-    //% block="1"
-    Number_1 = 0x45,
-    //% block="2"
-    Number_2 = 0x46,
-    //% block="3"
-    Number_3 = 0x47,
-    //% block="4"
-    Number_4 = 0x44,
-    //% block="5"
-    Number_5 = 0x40,
-    //% block="6"
-    Number_6 = 0x43,
-    //% block="7"
-    Number_7 = 0x07,
-    //% block="8"
-    Number_8 = 0x15,
-    //% block="9"
-    Number_9 = 0x09,
-    //% block="*"
-    Star = 0x16,
-    //% block="0"
-    Number_0 = 0x19,
-    //% block="#"
-    Hash = 0x0d,
-    //% block=" "
-    Unused_1 = -1,
-    //% block="▲"
-    Up = 0x18,
-    //% block=" "
-    Unused_2 = -2,
-    //% block="◀"
-    Left = 0x08,
-    //% block="OK"
-    OK = 0x1c,
-    //% block="▶"
-    Right = 0x5a,
-    //% block=" "
-    Unused_3 = -3,
-    //% block="▼"
-    Down = 0x52,
-    //% block=" "
-    Unused_4 = -4
-}
-
-enum BatteryType {
-    //% block="3 AA batteries"
-    AA3 = 1,
-    //% block="4 AA batteries"
-    AA4 = 2,
-    //% block="5 AA batteries"
-    AA5 = 3,
-    //% block="6 AA batteries"
-    AA6 = 4,
-    //% block="1 lithium battery"
-    LithiumBattery1 = 5,
-    //% block="2 lithium batteries"
-    LithiumBattery2 = 6
-}
-
 //% weight=11 color=#FF5C00 block="mShield" blockId="mShield" icon="\uf085"
 namespace mShield {
-    let IR_Val = 0
+    export enum MotorsDirection {
+        //%block="clockwise"
+        CC = 1,
+        //%block="counterclockwise"
+        CCW = 2,
+    }
+
+    export enum Motors {
+        //%block="left motor"
+        LeftMotor = 1,
+        //%block="right motor"
+        RightMotor = 2,
+        //%block="all motors"
+        AllMotors = 3
+    }
+
+    export enum LEDs {
+        //%block="20%_LED"
+        LED20 = 1,
+        //%block="40%_LED"
+        LED40 = 2,
+        //%block="60%_LED"
+        LED60 = 3,
+        //%block="80%_LED"
+        LED80 = 4
+    }
+
+    export enum LedState {
+        //%block="ON"
+        ON = 1,
+        //%block="OFF"
+        OFF = 0
+    }
+
+    export enum PwmIndex {
+        //% block="S1"
+        S1 = 1,
+        //% block="S2"
+        S2 = 2,
+        //% block="S3"
+        S3 = 3,
+        //% block="S4"
+        S4 = 4
+    }
+
+    export enum ServoIndex {
+        //% block="S1"
+        S1 = 1,
+        //% block="S2"
+        S2 = 2,
+        //% block="S3"
+        S3 = 3,
+        //% block="S4"
+        S4 = 4
+    }
+
+    export enum ServoType {
+        //% block="90°"
+        Servo90 = 1,
+        //% block="180°"
+        Servo180 = 2,
+        //% block="270°"
+        Servo270 = 3
+    }
+
+    export enum MshieldIrButtons {
+        //% block="1"
+        Number1 = 0x45,
+        //% block="2"
+        Number2 = 0x46,
+        //% block="3"
+        Number3 = 0x47,
+        //% block="4"
+        Number4 = 0x44,
+        //% block="5"
+        Number5 = 0x40,
+        //% block="6"
+        Number6 = 0x43,
+        //% block="7"
+        Number7 = 0x07,
+        //% block="8"
+        Number8 = 0x15,
+        //% block="9"
+        Number9 = 0x09,
+        //% block="*"
+        Star = 0x16,
+        //% block="0"
+        Number0 = 0x19,
+        //% block="#"
+        Hash = 0x0d,
+        //% block=" "
+        Unused1 = -1,
+        //% block="▲"
+        Up = 0x18,
+        //% block=" "
+        Unused2 = -2,
+        //% block="◀"
+        Left = 0x08,
+        //% block="OK"
+        OK = 0x1c,
+        //% block="▶"
+        Right = 0x5a,
+        //% block=" "
+        Unused3 = -3,
+        //% block="▼"
+        Down = 0x52,
+        //% block=" "
+        Unused4 = -4
+    }
+
+    export enum BatteryType {
+        //% block="3 AA batteries"
+        AA3 = 1,
+        //% block="4 AA batteries"
+        AA4 = 2,
+        //% block="5 AA batteries"
+        AA5 = 3,
+        //% block="6 AA batteries"
+        AA6 = 4,
+        //% block="1 lithium battery"
+        LithiumBattery1 = 5,
+        //% block="2 lithium batteries"
+        LithiumBattery2 = 6
+    }
+
+    let irVal = 0
     let leftMotorSpeed = 0
     let rightMotorSpeed = 0
 
     let irstate: number;
     let state: number;
 
-    /*
-    * 
-    * The I2C speed is 100Khz, and the slave address is 0x29
-    */
+    //The I2C speed is 100Khz, and the slave address is 0x29
     let i2cAddr: number = 0x29;
 
 
     /**
     * Set the speed and direction of the wheels
-    * @param motor: The motors of mShield.
-    * @param direction: The motor goes clockwise or counterclockwise.
-    * @param speed: The speed at which the motor, eg: 0--100
+    * @param motor - The motors of mShield.
+    * @param direction - The motor goes clockwise or counterclockwise.
+    * @param speed - The speed at which the motor. eg: 0--100
     */
     //% group="Motors"
     //% block="set %motor %direction speed %speed\\%"
@@ -179,8 +176,8 @@ namespace mShield {
 
     /**
      * Set the speed and direction of the motor.
-     * @param leftSpeed: Set the speed and direction of the left motor.
-     * @param rightSpeed: Set the speed and direction of the right motor.
+     * @param leftSpeed - Set the speed and direction of the left motor.
+     * @param rightSpeed - Set the speed and direction of the right motor.
      */
     //% group="Motors"
     //% block="set left motor speed %leftSpeed\\% right motor speed %rightSpeed\\%"
@@ -213,7 +210,7 @@ namespace mShield {
 
     /** 
      * Motors stop.
-     * @param motor: The motors of mCar.
+     * @param motor - The motors of mShield.
      */
     //% group="Motors"
     //% weight=378
@@ -240,8 +237,8 @@ namespace mShield {
      * Motors speed calibration.
      * When the speed of the left and right motors of the mShield trolley is not consistent,
      * this function can adjust the speed of the motor and save it permanently.
-     * @param offset1: left motor offset, eg: -10--0
-     * @param offset1: right motor offset, eg: -10--0
+     * @param offset1 - Left motor offset. eg: -10--0
+     * @param offset1 - Right motor offset. eg: -10--0
      */
     //% group="Motors"
     //% weight=377
@@ -266,60 +263,34 @@ namespace mShield {
 
     /**
     * Set xxx% LEDs.
-    * @param led: Choose which leds to use.
-    * @param onOff: Turn LED on or off. eg: on = 1, off = 0
+    * @param led - Choose which leds to use.
+    * @param onOff - Turn LED on or off. eg: on = 1, off = 0
     */
     //% group="LEDs"
     //% block="set %led state $onOff"
     //% weight=370
     export function setLed(led: LEDs, onOff: LedState) {
         let buf = pins.createBuffer(2)
-        if (led == LEDs.LED_20){
+        if (led == LEDs.LED20){
             buf[0] = 0x0b;
             buf[1] = onOff;
         }
-        if (led == LEDs.LED_40) {
+        if (led == LEDs.LED40) {
             buf[0] = 0x0c;
             buf[1] = onOff;
         }
-        if (led == LEDs.LED_60) {
+        if (led == LEDs.LED60) {
             buf[0] = 0x0d;
             buf[1] = onOff;
         }
-        if (led == LEDs.LED_80) {
+        if (led == LEDs.LED80) {
             buf[0] = 0x0e;
             buf[1] = onOff;
         }
         pins.i2cWriteBuffer(i2cAddr, buf);
     }
 
-    /**
-    * Turn off all the LED lights.
-    */
-    //% group="LEDs"
-    //% block="turn off all LEDs"
-    //% weight=269
-    export function turnOffAllLeds(): void {
-        let buf = pins.createBuffer(2);
-
-        buf[0] = 0x0b;
-        buf[1] = 0;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        buf[0] = 0x0c;
-        buf[1] = 0;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        buf[0] = 0x0d;
-        buf[1] = 0;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        buf[0] = 0x0e;
-        buf[1] = 0;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-    }
-
-    /**
-     * 
-     */
-    //% shim=mCarInfrared::irCode
+    //% shim=mShieldInfrared::irCode
     function irCode(): number {
         return 0;
     }
@@ -334,14 +305,13 @@ namespace mShield {
     export function irCallBack(handler: () => void) {  
         //handler is the functional argument to the irCallback function and is the block
         //to be executed inside the irCallback function generation block.
-        //(handler是irCallback函数的函数型参数，也是irCallback函数生成语块里面要执行的语块。)
         pins.setPull(DigitalPin.P12, PinPullMode.PullUp)
         //A trigger event is registered, and handler is the function to execute to trigger the event.
         control.onEvent(98, 3500, handler)             
         control.inBackground(() => {
             while (true) {
-                IR_Val = irCode()
-                if (IR_Val != 0xff00) {
+                irVal = irCode()
+                if (irVal != 0xff00) {
                     //Fires the event registered above（control.onEvent（））
                     control.raiseEvent(98, 3500, EventCreationMode.CreateAndFire) 
                 }
@@ -361,8 +331,8 @@ namespace mShield {
     //% irButton.fieldOptions.tooltips="false"
     //% block="IR button %irButton is pressed"
     //% weight=359
-    export function irButton(irButton: MshieldIRButtons): boolean {
-        return (IR_Val & 0x00ff) == irButton as number
+    export function irButton(irButton: MshieldIrButtons): boolean {
+        return (irVal & 0x00ff) == irButton as number
     }
 
 
@@ -376,17 +346,17 @@ namespace mShield {
     //% block="IR value"
     //% weight=358
     export function irValue(): number {
-        return IR_Val & 0x00ff;
+        return irVal & 0x00ff;
     }
 
     /**
      * mShield S1--S4 ports output PWM signals.
-     * @param index: S1--S4 ports.
-     * @param pulseWidth: Pulse width.
+     * @param index - S1--S4 ports.
+     * @param pulseWidth - Pulse width.
      */
     //% group="PWM port"
     //% weight=350
-    //% block="set %index pluse is %pulseWidth°"
+    //% block="set %index pluse width is %pulseWidth"
     //% pulseWidth.min=0 pulseWidth.max=200
     export function extendPwmControl(index: PwmIndex, pulseWidth: number): void {
 
@@ -404,11 +374,11 @@ namespace mShield {
     }
 
     /**
-     * servo control module, used for 90, 180, 270 degrees servo.
+     * Servo control module, used for 90, 180, 270 degrees servo.
      * When the S1--S4 ports of mShield are connected to the servo, this function can control the servo.
-     * @param servoType: Servo type, eg: 90, 180, 270
-     * @param index: Servo interface on mCar, eg: S1, S2, S2, S4
-     * @param angle: The Angle of rotation of the servo.
+     * @param servoType - Servo type, eg: 90, 180, 270
+     * @param index - Servo interface on mShield, eg: S1, S2, S2, S4
+     * @param angle - The Angle of rotation of the servo.
      */
     //% group="PWM port"
     //% weight=349
@@ -443,8 +413,8 @@ namespace mShield {
 
     /**
      * The steering gear rotates continuously, and is used for the steering gear of 360 degrees rotation.
-     * @param index: Servo interface on mShield, eg: S1, S2, S2, S4
-     * @param speed: The speed at which the servo rotates.
+     * @param index - Servo interface on mShield. eg: S1, S2, S2, S4
+     * @param speed - The speed at which the servo rotates.
      */
     //% group="PWM port"
     //% weight=348
@@ -458,7 +428,7 @@ namespace mShield {
 
     /**
      * Sets the battery type and returns the battery level.
-     * @param batType: Type of battery. eg: 3 AA battery, 1 lithium battery
+     * @param batType - Type of battery. eg: 3 AA battery, 1 lithium battery
      * Return 0--100
      */
     //% group="Battery"
@@ -488,8 +458,8 @@ namespace mShield {
     }
 
     /**
-     * Read the firmware version of the chip on the mCar.
-     * Returns a string, eg："Vx"
+     * Read the firmware version of the chip on the mShield.
+     * Returns a string. eg："Vx"
      */
     //% group="Others"
     //% weight=330
