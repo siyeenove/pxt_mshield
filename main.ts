@@ -38,6 +38,13 @@ namespace mShield {
         OFF = 0
     }
 
+    export enum S1ToS4Type {
+        //%block="PWM"
+        PWM = 1,
+        //%block="servo"
+        Servo = 2
+    }
+
     export enum PwmIndex {
         //% block="S1"
         S1 = 1,
@@ -157,9 +164,9 @@ namespace mShield {
             leftMotorSpeed = speed;
             i2cBuffer[0] = 0x09;
             if (direction == MotorsDirection.CC)         //clockwise
-                i2cBuffer[1] = leftMotorSpeed + 101;
-            else if (direction == MotorsDirection.CCW)   //counterclockwise
                 i2cBuffer[1] = leftMotorSpeed;
+            else if (direction == MotorsDirection.CCW)   //counterclockwise
+                i2cBuffer[1] = leftMotorSpeed + 101;
             pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
         }
         if (motor == Motors.RightMotor || motor == Motors.AllMotors) {
@@ -190,10 +197,10 @@ namespace mShield {
         i2cBuffer[0] = 0x09;
         if (leftSpeed > 0){
             leftMotorSpeed = leftSpeed;
-            i2cBuffer[1] = leftMotorSpeed + 101;
+            i2cBuffer[1] = leftMotorSpeed;
         }else{
             leftMotorSpeed = Math.abs(leftSpeed);
-            i2cBuffer[1] = leftMotorSpeed;
+            i2cBuffer[1] = leftMotorSpeed + 101;
         }
         pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
 
@@ -273,20 +280,39 @@ namespace mShield {
         let buf = pins.createBuffer(2)
         if (led == LEDs.LED20){
             buf[0] = 0x0b;
-            buf[1] = onOff;
         }
         if (led == LEDs.LED40) {
             buf[0] = 0x0c;
-            buf[1] = onOff;
         }
         if (led == LEDs.LED60) {
             buf[0] = 0x0d;
-            buf[1] = onOff;
         }
         if (led == LEDs.LED80) {
             buf[0] = 0x0e;
-            buf[1] = onOff;
         }
+        buf[1] = onOff;
+        pins.i2cWriteBuffer(i2cAddr, buf);
+    }
+
+    /**
+    * Turn off all LEDs.
+    * @param led - Choose which leds to use.
+    * @param onOff - Turn LED on or off. eg: on = 1, off = 0
+    */
+    //% group="LEDs"
+    //% block="turn off all LEDs"
+    //% weight=369
+    export function turnOffAllLeds() {
+        let buf = pins.createBuffer(2);
+        buf[1] = 0;
+
+        buf[0] = 0x0b;
+        pins.i2cWriteBuffer(i2cAddr, buf);
+        buf[0] = 0x0c;
+        pins.i2cWriteBuffer(i2cAddr, buf);
+        buf[0] = 0x0d;
+        pins.i2cWriteBuffer(i2cAddr, buf);
+        buf[0] = 0x0e;
         pins.i2cWriteBuffer(i2cAddr, buf);
     }
 
@@ -350,25 +376,39 @@ namespace mShield {
     }
 
     /**
+     * Set the port type of S1-S4.
+     * @param type - PWM or servo.
+     */
+    //% group="PWM port"
+    //% weight=350
+    //% block="set S1-S4 as %type port"
+    export function setS1ToS4Type(type: S1ToS4Type): void {
+        let buf = pins.createBuffer(2)
+        buf[0] = 0x0f;
+        buf[1] = type;
+        pins.i2cWriteBuffer(i2cAddr, buf);
+    }
+
+    /**
      * mShield S1--S4 ports output PWM signals.
      * @param index - S1--S4 ports.
      * @param pulseWidth - Pulse width.
      */
     //% group="PWM port"
-    //% weight=350
-    //% block="set %index pluse width is %pulseWidth"
+    //% weight=349
+    //% block="set %index PWM pluse width is %pulseWidth"
     //% pulseWidth.min=0 pulseWidth.max=200
     export function extendPwmControl(index: PwmIndex, pulseWidth: number): void {
 
         let buf = pins.createBuffer(2)
         if (index == PwmIndex.S1)
-            buf[0] = 0x0f;
-        else if (index == PwmIndex.S2)
             buf[0] = 0x10;
-        else if (index == PwmIndex.S3)
+        else if (index == PwmIndex.S2)
             buf[0] = 0x11;
-        else if (index == PwmIndex.S4)
+        else if (index == PwmIndex.S3)
             buf[0] = 0x12;
+        else if (index == PwmIndex.S4)
+            buf[0] = 0x13;
         buf[1] = pulseWidth;
         pins.i2cWriteBuffer(i2cAddr, buf);
     }
@@ -381,7 +421,7 @@ namespace mShield {
      * @param angle - The Angle of rotation of the servo.
      */
     //% group="PWM port"
-    //% weight=349
+    //% weight=348
     //% block="set %index %servoType servo angle to %angle°"
     export function extendServoControl(index: ServoIndex, servoType: ServoType, angle: number): void {
         let angleMap: number
@@ -399,13 +439,13 @@ namespace mShield {
 
         let buf = pins.createBuffer(2)
         if (index == ServoIndex.S1)
-            buf[0] = 0x13;
-        else if (index == ServoIndex.S2)
             buf[0] = 0x14;
-        else if (index == ServoIndex.S3)
+        else if (index == ServoIndex.S2)
             buf[0] = 0x15;
-        else if (index == ServoIndex.S4)
+        else if (index == ServoIndex.S3)
             buf[0] = 0x16;
+        else if (index == ServoIndex.S4)
+            buf[0] = 0x17;
         buf[1] = angleMap;
         pins.i2cWriteBuffer(i2cAddr, buf);
     }
@@ -417,7 +457,7 @@ namespace mShield {
      * @param speed - The speed at which the servo rotates.
      */
     //% group="PWM port"
-    //% weight=348
+    //% weight=347
     //% block="set %index 360° servo speed to %speed\\%"
     //% speed.min=-100 speed.max=100
     export function continuousServoControl(index: ServoIndex, speed: number): void {
