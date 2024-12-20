@@ -381,7 +381,7 @@ namespace mShield {
      */
     //% group="PWM port"
     //% weight=350
-    //% block="set S1-S4 as %type port"
+    //% block="set S1-S4 as %type ports"
     export function setS1ToS4Type(type: S1ToS4Type): void {
         let buf = pins.createBuffer(2)
         buf[0] = 0x0f;
