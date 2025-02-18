@@ -12,10 +12,10 @@ namespace mShield {
     }
 
     export enum Motors {
-        //%block="left motor"
-        LeftMotor = 1,
-        //%block="right motor"
-        RightMotor = 2,
+        //%block="motor1"
+        Motor1 = 1,
+        //%block="motor2"
+        Motor2 = 2,
         //%block="all motors"
         AllMotors = 3
     }
@@ -137,8 +137,8 @@ namespace mShield {
     }
 
     let irVal = 0
-    let leftMotorSpeed = 0
-    let rightMotorSpeed = 0
+    let motor1Speed = 0
+    let motor2Speed = 0
 
     let irstate: number;
     let state: number;
@@ -148,7 +148,7 @@ namespace mShield {
 
 
     /**
-    * Set the speed and direction of the wheels
+    * Set the speed and direction of the motors
     * @param motor - The motors of mShield.
     * @param direction - The motor goes clockwise or counterclockwise.
     * @param speed - The speed at which the motor. eg: 0--100
@@ -160,22 +160,22 @@ namespace mShield {
     export function setMotorsDirectionSpeed(motor: Motors, direction: MotorsDirection, speed: number): void {
         let i2cBuffer = pins.createBuffer(2)
         
-        if (motor == Motors.LeftMotor || motor == Motors.AllMotors) {
-            leftMotorSpeed = speed;
+        if (motor == Motors.Motor1 || motor == Motors.AllMotors) {
+            motor1Speed = speed;
             i2cBuffer[0] = 0x09;
             if (direction == MotorsDirection.CC)         //clockwise
-                i2cBuffer[1] = leftMotorSpeed;
+                i2cBuffer[1] = motor1Speed;
             else if (direction == MotorsDirection.CCW)   //counterclockwise
-                i2cBuffer[1] = leftMotorSpeed + 101;
+                i2cBuffer[1] = motor1Speed + 101;
             pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
         }
-        if (motor == Motors.RightMotor || motor == Motors.AllMotors) {
-            rightMotorSpeed = speed;
+        if (motor == Motors.Motor2 || motor == Motors.AllMotors) {
+            motor2Speed = speed;
             i2cBuffer[0] = 0x0a;
             if (direction == MotorsDirection.CC)          //clockwise
-                i2cBuffer[1] = rightMotorSpeed;
+                i2cBuffer[1] = motor2Speed;
             else if (direction == MotorsDirection.CCW)    //counterclockwise
-                i2cBuffer[1] = rightMotorSpeed + 101;
+                i2cBuffer[1] = motor2Speed + 101;
             pins.i2cWriteBuffer(i2cAddr, i2cBuffer)
         }
     }
@@ -183,34 +183,34 @@ namespace mShield {
 
     /**
      * Set the speed and direction of the motor.
-     * @param leftSpeed - Set the speed and direction of the left motor.
-     * @param rightSpeed - Set the speed and direction of the right motor.
+     * @param m1Speed - Set the speed and direction of the left motor.
+     * @param m2Speed - Set the speed and direction of the right motor.
      */
     //% group="Motors"
-    //% block="set left motor speed %leftSpeed\\% right motor speed %rightSpeed\\%"
-    //% leftSpeed.min=-100 leftSpeed.max=100
-    //% rightSpeed.min=-100 rightSpeed.max=100
+    //% block="set motor1 speed %m1Speed\\% motor2 speed %m2Speed\\%"
+    //% m1Speed.min=-100 m1Speed.max=100
+    //% m2Speed.min=-100 m2Speed.max=100
     //% weight=379
-    export function setMotorsSpeed(leftSpeed: number, rightSpeed: number): void {
+    export function setMotorsSpeed(m1Speed: number, m2Speed: number): void {
         let i2cBuffer = pins.createBuffer(2)
         
         i2cBuffer[0] = 0x09;
-        if (leftSpeed > 0){
-            leftMotorSpeed = leftSpeed;
-            i2cBuffer[1] = leftMotorSpeed;
+        if (m1Speed > 0){
+            motor1Speed = m1Speed;
+            i2cBuffer[1] = motor1Speed;
         }else{
-            leftMotorSpeed = Math.abs(leftSpeed);
-            i2cBuffer[1] = leftMotorSpeed + 101;
+            motor1Speed = Math.abs(m1Speed);
+            i2cBuffer[1] = motor1Speed + 101;
         }
         pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
 
         i2cBuffer[0] = 0x0a;
-        if (rightSpeed > 0){
-            rightMotorSpeed = rightSpeed;
-            i2cBuffer[1] = rightMotorSpeed;
+        if (m2Speed > 0){
+            motor2Speed = m2Speed;
+            i2cBuffer[1] = motor2Speed;
         }else{
-            rightMotorSpeed = Math.abs(rightSpeed);
-            i2cBuffer[1] = rightMotorSpeed + 101;
+            motor2Speed = Math.abs(m2Speed);
+            i2cBuffer[1] = motor2Speed + 101;
         }
         pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
     }
@@ -225,16 +225,16 @@ namespace mShield {
     export function wheelStop(motor: Motors): void {
         let i2cBuffer = pins.createBuffer(2)
 
-        if (motor == Motors.LeftMotor || motor == Motors.AllMotors) {
-            leftMotorSpeed = 0;
+        if (motor == Motors.Motor1 || motor == Motors.AllMotors) {
+            motor1Speed = 0;
             i2cBuffer[0] = 0x09;
-            i2cBuffer[1] = leftMotorSpeed;
+            i2cBuffer[1] = motor1Speed;
             pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
         }
-        if (motor == Motors.RightMotor || motor == Motors.AllMotors) {
-            rightMotorSpeed = 0;
+        if (motor == Motors.Motor2 || motor == Motors.AllMotors) {
+            motor2Speed = 0;
             i2cBuffer[0] = 0x0a;
-            i2cBuffer[1] = rightMotorSpeed;
+            i2cBuffer[1] = motor2Speed;
             pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
         }
     }
@@ -244,12 +244,12 @@ namespace mShield {
      * Motors speed calibration.
      * When the speed of the left and right motors of the mShield trolley is not consistent,
      * this function can adjust the speed of the motor and save it permanently.
-     * @param offset1 - Left motor offset. eg: -10--0
-     * @param offset1 - Right motor offset. eg: -10--0
+     * @param offset1 - Motor1 offset. eg: -10--0
+     * @param offset1 - Motor2 offset. eg: -10--0
      */
     //% group="Motors"
     //% weight=377
-    //%block="motors speed offset: left motor %offset1 right motor %offset2"
+    //%block="motors speed offset: motor1 %offset1 motor2 %offset2"
     //% offset1.min=-10 offset1.max=0
     //% offset2.min=-10 offset2.max=0
     export function motorsAdjustment(offset1: number, offset2: number): void {
