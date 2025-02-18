@@ -1,5 +1,5 @@
 
-> Open this page at [https://siyeenove.github.io/pxt-mshield/](https://siyeenove.github.io/pxt-mshield/)
+> Open this page at [https://siyeenove.github.io/pxt-mshield/](https://siyeenove.github.io/pxt_mshield/)
 
 ## Use as Extension
 
@@ -8,7 +8,7 @@ This repository can be added as an **extension** in MakeCode.
 * open [https://makecode.microbit.org/](https://makecode.microbit.org/)
 * click on **New Project**
 * click on **Extensions** under the gearwheel menu
-* search for **https://github.com/siyeenove/pxt-mshield** and import
+* search for **https://github.com/siyeenove/pxt_mshield** and import
 
 ## Edit this project
 
