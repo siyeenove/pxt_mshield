@@ -1,23 +1,86 @@
 
+# Siyeenove mShield Package
+
 > Open this page at [https://siyeenove.github.io/pxt_mshield/](https://siyeenove.github.io/pxt_mshield/)
 
-## Use as Extension
+This library is designed to drive mShield, You can get mShield here.
 
-This repository can be added as an **extension** in MakeCode.
+[Buy](https://www.amazon.com/dp/B0FQ5ZP1GW)
+[Buy](https://siyeenove.com/buy/)
 
-* open [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* click on **New Project**
-* click on **Extensions** under the gearwheel menu
-* search for **https://github.com/siyeenove/pxt_mshield** and import
+Product Tutorial: 
 
-## Edit this project
+[SIYEENOVE](https://siyeenove.com/tutorial/)   
+[Github PDF](https://siyeenove.github.io/M1E0002/mShield%20Tutorial%20-%20English%202025-8-7.pdf) 
 
-To edit this repository in MakeCode.
+## Code Example
 
-* open [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* click on **Import** then click on **Import URL**
-* paste **https://github.com/siyeenove/pxt_mshield** and click import
+```JavaScript
+mShield.irCallBack(function () {
+    if (mShield.irButton(mShield.MshieldIrButtons.Number1)) {
+        mShield.setLed(mShield.LEDs.LED20, mShield.LedState.ON)
+        mShield.setLed(mShield.LEDs.LED40, mShield.LedState.ON)
+        mShield.setLed(mShield.LEDs.LED60, mShield.LedState.ON)
+        mShield.setLed(mShield.LEDs.LED80, mShield.LedState.ON)
+        basic.pause(1000)
+    }
+    if (mShield.irButton(mShield.MshieldIrButtons.Number2)) {
+        mShield.turnOffAllLeds()
+        basic.pause(1000)
+    }
+})
+mShield.motorsAdjustment(0, 0)
+basic.forever(function () {
+    mShield.setMotorsDirectionSpeed(mShield.Motors.AllMotors, mShield.MotorsDirection.CC, 100)
+    basic.pause(1000)
+    mShield.setMotorsDirectionSpeed(mShield.Motors.AllMotors, mShield.MotorsDirection.CC, 0)
+    basic.pause(1000)
+    mShield.setMotorsDirectionSpeed(mShield.Motors.AllMotors, mShield.MotorsDirection.CCW, 100)
+    basic.pause(1000)
+    mShield.setMotorsDirectionSpeed(mShield.Motors.AllMotors, mShield.MotorsDirection.CCW, 0)
+    basic.pause(1000)
+    mShield.setS1ToS4Type(mShield.S1ToS4Type.PWM)
+    basic.pause(1000)
+    mShield.extendPwmControl(mShield.PwmIndex.S1, 200)
+    mShield.extendPwmControl(mShield.PwmIndex.S2, 200)
+    mShield.extendPwmControl(mShield.PwmIndex.S3, 200)
+    mShield.extendPwmControl(mShield.PwmIndex.S4, 200)
+    basic.pause(1000)
+    mShield.extendPwmControl(mShield.PwmIndex.S1, 0)
+    mShield.extendPwmControl(mShield.PwmIndex.S2, 0)
+    mShield.extendPwmControl(mShield.PwmIndex.S3, 0)
+    mShield.extendPwmControl(mShield.PwmIndex.S4, 0)
+    basic.pause(1000)
+    mShield.setS1ToS4Type(mShield.S1ToS4Type.Servo)
+    basic.pause(1000)
+    mShield.extendServoControl(mShield.ServoIndex.S1, mShield.ServoType.Servo180, 0)
+    mShield.extendServoControl(mShield.ServoIndex.S2, mShield.ServoType.Servo180, 0)
+    mShield.extendServoControl(mShield.ServoIndex.S3, mShield.ServoType.Servo180, 0)
+    mShield.extendServoControl(mShield.ServoIndex.S4, mShield.ServoType.Servo180, 0)
+    basic.pause(1000)
+    mShield.extendServoControl(mShield.ServoIndex.S1, mShield.ServoType.Servo180, 180)
+    mShield.extendServoControl(mShield.ServoIndex.S2, mShield.ServoType.Servo180, 180)
+    mShield.extendServoControl(mShield.ServoIndex.S3, mShield.ServoType.Servo180, 180)
+    mShield.extendServoControl(mShield.ServoIndex.S4, mShield.ServoType.Servo180, 180)
+    basic.pause(1000)
+    mShield.continuousServoControl(mShield.ServoIndex.S1, 100)
+    basic.pause(1000)
+    mShield.continuousServoControl(mShield.ServoIndex.S1, 0)
+    basic.pause(1000)
+    mShield.continuousServoControl(mShield.ServoIndex.S1, -100)
+    basic.pause(1000)
+    mShield.continuousServoControl(mShield.ServoIndex.S1, 0)
+    basic.pause(1000)
+    basic.showNumber(mShield.batteryLevel(mShield.BatteryType.AA3))
+    basic.pause(1000)
+    basic.showString(mShield.readVersions())
+})
+```
 
-#### Metadata (used for search, rendering)
+## Supported targets
 
 * for PXT/microbit
+
+## License
+
+* MIT

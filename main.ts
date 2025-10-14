@@ -156,6 +156,7 @@ namespace mShield {
     //% group="Motors"
     //% block="set %motor %direction speed %speed\\%"
     //% speed.min=0 speed.max=100
+    //% speed.defl=0
     //% weight=380
     export function setMotorsDirectionSpeed(motor: Motors, direction: MotorsDirection, speed: number): void {
         let i2cBuffer = pins.createBuffer(2)
@@ -252,6 +253,7 @@ namespace mShield {
     //%block="motors speed offset: motor1 %offset1 motor2 %offset2"
     //% offset1.min=-10 offset1.max=0
     //% offset2.min=-10 offset2.max=0
+    //% offset1.defl=0 offset2.defl=0
     export function motorsAdjustment(offset1: number, offset2: number): void {
         let buffer = pins.createBuffer(2)
         offset1 = Math.map(offset1, -10, 0, 10, 0);
@@ -276,6 +278,7 @@ namespace mShield {
     //% group="LEDs"
     //% block="set %led state $onOff"
     //% weight=370
+    //% onOff.defl=LedState.OFF
     export function setLed(led: LEDs, onOff: LedState) {
         let buf = pins.createBuffer(2)
         if (led == LEDs.LED20){
@@ -296,8 +299,6 @@ namespace mShield {
 
     /**
     * Turn off all LEDs.
-    * @param led - Choose which leds to use.
-    * @param onOff - Turn LED on or off. eg: on = 1, off = 0
     */
     //% group="LEDs"
     //% block="turn off all LEDs"
@@ -398,6 +399,7 @@ namespace mShield {
     //% weight=349
     //% block="set %index PWM pluse width is %pulseWidth"
     //% pulseWidth.min=0 pulseWidth.max=200
+    //% pulseWidth.defl=0
     export function extendPwmControl(index: PwmIndex, pulseWidth: number): void {
 
         let buf = pins.createBuffer(2)
@@ -416,13 +418,14 @@ namespace mShield {
     /**
      * Servo control module, used for 90, 180, 270 degrees servo.
      * When the S1--S4 ports of mShield are connected to the servo, this function can control the servo.
-     * @param servoType - Servo type, eg: 90, 180, 270
-     * @param index - Servo interface on mShield, eg: S1, S2, S2, S4
+     * @param servoType - Servo type.
+     * @param index - Servo interface on mShield.
      * @param angle - The Angle of rotation of the servo.
      */
     //% group="PWM port"
     //% weight=348
     //% block="set %index %servoType servo angle to %angle°"
+    //% angle.defl=0
     export function extendServoControl(index: ServoIndex, servoType: ServoType, angle: number): void {
         let angleMap: number
         if (servoType == ServoType.Servo90) {
@@ -453,13 +456,14 @@ namespace mShield {
 
     /**
      * The steering gear rotates continuously, and is used for the steering gear of 360 degrees rotation.
-     * @param index - Servo interface on mShield. eg: S1, S2, S2, S4
+     * @param index - Servo interface on mShield. 
      * @param speed - The speed at which the servo rotates.
      */
     //% group="PWM port"
     //% weight=347
     //% block="set %index 360° servo speed to %speed\\%"
     //% speed.min=-100 speed.max=100
+    //% speed.defl=0
     export function continuousServoControl(index: ServoIndex, speed: number): void {
         speed = Math.map(speed, -100, 100, 0, 180)
         extendServoControl(index, ServoType.Servo180, speed)
@@ -468,7 +472,7 @@ namespace mShield {
 
     /**
      * Sets the battery type and returns the battery level.
-     * @param batType - Type of battery. eg: 3 AA battery, 1 lithium battery
+     * @param batType - Type of battery. 
      * Return 0--100
      */
     //% group="Battery"

@@ -1,6 +1,6 @@
 {
     "name": "pxt_mshield",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "mShield designed by Siyeenove",
     "license": "MIT",
     "dependencies": {
@@ -21,7 +21,7 @@
     ],
     "public": true,
     "targetVersions": {
-        "target": "7.0.57",
+        "target": "8.0.16",
         "targetId": "microbit"
     },
     "supportedTargets": [
