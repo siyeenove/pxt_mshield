@@ -1,6 +1,6 @@
 {
     "name": "pxt_mshield",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "description": "mShield designed by Siyeenove",
     "license": "MIT",
     "dependencies": {
