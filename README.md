@@ -5,7 +5,7 @@
 
 > Open this page at [https://siyeenove.github.io/pxt_mshield/](https://siyeenove.github.io/pxt_mshield/)
 
-This library is designed to drive mShield, You can get mShield here.
+This library is designed to drive mShield, You can get mShield here:   
 
 [Buy](https://www.amazon.com/dp/B0FQ5ZP1GW)    
 [SIYEENOVE](https://siyeenove.com/buy/)   
