@@ -1,7 +1,7 @@
 
 # Siyeenove mShield Package
 
-![](/icon.png/)
+![](/image.jpg/)
 
 > Open this page at [https://siyeenove.github.io/pxt_mshield/](https://siyeenove.github.io/pxt_mshield/)
 
