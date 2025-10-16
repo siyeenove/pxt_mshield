@@ -117,7 +117,10 @@ basic.forever(function () {
     // Read the power level of the 3-connected AA battery.
     basic.showNumber(mShield.batteryLevel(mShield.BatteryType.AA3))
     basic.pause(1000)
+
+    // Read the extension board firmware version.
     basic.showString(mShield.readVersions())
+    basic.pause(1000)
 })
 ```
 
