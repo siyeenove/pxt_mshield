@@ -381,18 +381,25 @@ namespace mShield {
     //% pulseWidth.min=0 pulseWidth.max=200
     //% pulseWidth.defl=0
     export function extendPwmControl(index: PwmAndServoIndex, pulseWidth: number): void {
-
         let buf = pins.createBuffer(2)
-        if (index == PwmAndServoIndex.S1)
-            buf[0] = 0x10;
-        else if (index == PwmAndServoIndex.S2)
-            buf[0] = 0x11;
-        else if (index == PwmAndServoIndex.S3)
-            buf[0] = 0x12;
-        else if (index == PwmAndServoIndex.S4)
-            buf[0] = 0x13;
+
         buf[1] = pulseWidth;
-        pins.i2cWriteBuffer(i2cAddr, buf);
+        if (index == PwmAndServoIndex.S1 || index == PwmAndServoIndex.All){
+            buf[0] = 0x10;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
+        if (index == PwmAndServoIndex.S2 || index == PwmAndServoIndex.All){
+            buf[0] = 0x11;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
+        if (index == PwmAndServoIndex.S3 || index == PwmAndServoIndex.All){
+            buf[0] = 0x12;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
+        if (index == PwmAndServoIndex.S4 || index == PwmAndServoIndex.All){
+            buf[0] = 0x13;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
     }
 
     /**
@@ -410,27 +417,30 @@ namespace mShield {
         let angleMap: number
         if (servoType == ServoType.Servo90) {
             angleMap = Math.map(angle, 0, 90, 50, 250);
-        }
-
-        if (servoType == ServoType.Servo180) {
+        }else if (servoType == ServoType.Servo180) {
             angleMap = Math.map(angle, 0, 180, 50, 250);
-        }
-
-        if (servoType == ServoType.Servo270) {
+        }else if (servoType == ServoType.Servo270) {
             angleMap = Math.map(angle, 0, 270, 50, 250);
         }
 
         let buf = pins.createBuffer(2)
-        if (index == PwmAndServoIndex.S1)
-            buf[0] = 0x14;
-        else if (index == PwmAndServoIndex.S2)
-            buf[0] = 0x15;
-        else if (index == PwmAndServoIndex.S3)
-            buf[0] = 0x16;
-        else if (index == PwmAndServoIndex.S4)
-            buf[0] = 0x17;
         buf[1] = angleMap;
-        pins.i2cWriteBuffer(i2cAddr, buf);
+        if (index == PwmAndServoIndex.S1){
+            buf[0] = 0x14;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
+        if (index == PwmAndServoIndex.S2){
+            buf[0] = 0x15;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
+        if (index == PwmAndServoIndex.S3){
+            buf[0] = 0x16;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
+        if (index == PwmAndServoIndex.S4){
+            buf[0] = 0x17;
+            pins.i2cWriteBuffer(i2cAddr, buf);
+        }
     }
 
 
