@@ -314,13 +314,13 @@ namespace mShield {
         //to be executed inside the irCallback function generation block.
         pins.setPull(DigitalPin.P12, PinPullMode.PullUp)
         //A trigger event is registered, and handler is the function to execute to trigger the event.
-        control.onEvent(randint(70000, 70098), 3500, handler)
+        control.onEvent(299, 3500, handler)
         control.inBackground(() => {
             while (true) {
                 irVal = irCode()
                 if (irVal != 0xff00) {
                     //Fires the event registered above（control.onEvent（））
-                    control.raiseEvent(98, 3500, EventCreationMode.CreateAndFire) 
+                    control.raiseEvent(299, 3500, EventCreationMode.CreateAndFire) 
                 }
                 basic.pause(20)
             }
