@@ -304,8 +304,7 @@ namespace mShield {
     }
 
     /**
-      * Run code when a button is pressed on the IR remote
-      * to be controlled in the IR in real time.
+      * Run code when a button is pressed on the IR remote.
       */
     //% group="Infrared sensor"
     //% weight=360
