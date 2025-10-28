@@ -20,15 +20,17 @@ namespace mShield {
         AllMotors = 3
     }
 
-    export enum LEDs {
-        //%block="20%_LED"
+    export enum Leds {
+        //%block="20% LED"
         LED20 = 1,
-        //%block="40%_LED"
+        //%block="40% LED"
         LED40 = 2,
-        //%block="60%_LED"
+        //%block="60% LED"
         LED60 = 3,
-        //%block="80%_LED"
-        LED80 = 4
+        //%block="80% LED"
+        LED80 = 4,
+        //%block="all LEDs"
+        AllLED = 5
     }
 
     export enum LedState {
@@ -45,7 +47,7 @@ namespace mShield {
         Servo = 2
     }
 
-    export enum PwmIndex {
+    export enum PwmAndServoIndex {
         //% block="S1"
         S1 = 1,
         //% block="S2"
@@ -53,18 +55,9 @@ namespace mShield {
         //% block="S3"
         S3 = 3,
         //% block="S4"
-        S4 = 4
-    }
-
-    export enum ServoIndex {
-        //% block="S1"
-        S1 = 1,
-        //% block="S2"
-        S2 = 2,
-        //% block="S3"
-        S3 = 3,
-        //% block="S4"
-        S4 = 4
+        S4 = 4,
+        //% block="S1-S4"
+        All = 5
     }
 
     export enum ServoType {
@@ -273,48 +266,36 @@ namespace mShield {
     /**
     * Set xxx% LEDs.
     * @param led - Choose which leds to use.
-    * @param onOff - Turn LED on or off. eg: on = 1, off = 0
+    * @param onOff - Turn LED on or off.
     */
     //% group="LEDs"
     //% block="set %led state $onOff"
     //% weight=370
-    //% onOff.defl=LedState.OFF
-    export function setLed(led: LEDs, onOff: LedState) {
+    //% onOff.shadow=toggleOnOff
+    export function setLed(led: Leds, onOff: boolean) {
         let buf = pins.createBuffer(2)
-        if (led == LEDs.LED20){
+        if (onOff){
+            buf[1] = 1;
+        }else{
+            buf[1] = 0;
+        }
+        
+        if (led == Leds.LED20 || led == Leds.AllLED){
             buf[0] = 0x0b;
+            pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        if (led == LEDs.LED40) {
+        if (led == Leds.LED40 || led == Leds.AllLED) {
             buf[0] = 0x0c;
+            pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        if (led == LEDs.LED60) {
+        if (led == Leds.LED60 || led == Leds.AllLED) {
             buf[0] = 0x0d;
+            pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        if (led == LEDs.LED80) {
+        if (led == Leds.LED80 || led == Leds.AllLED) {
             buf[0] = 0x0e;
+            pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        buf[1] = onOff;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-    }
-
-    /**
-    * Turn off all LEDs.
-    */
-    //% group="LEDs"
-    //% block="turn off all LEDs"
-    //% weight=369
-    export function turnOffAllLeds() {
-        let buf = pins.createBuffer(2);
-        buf[1] = 0;
-
-        buf[0] = 0x0b;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        buf[0] = 0x0c;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        buf[0] = 0x0d;
-        pins.i2cWriteBuffer(i2cAddr, buf);
-        buf[0] = 0x0e;
-        pins.i2cWriteBuffer(i2cAddr, buf);
     }
 
     //% shim=mShieldInfrared::irCode
@@ -323,7 +304,7 @@ namespace mShield {
     }
 
     /**
-      * This function runs in the background all the time to read the value 
+      * Run code when a button is pressed on the IR remote
       * to be controlled in the IR in real time.
       */
     //% group="Infrared sensor"
@@ -334,7 +315,7 @@ namespace mShield {
         //to be executed inside the irCallback function generation block.
         pins.setPull(DigitalPin.P12, PinPullMode.PullUp)
         //A trigger event is registered, and handler is the function to execute to trigger the event.
-        control.onEvent(98, 3500, handler)             
+        control.onEvent(randint(70000, 70098), 3500, handler)
         control.inBackground(() => {
             while (true) {
                 irVal = irCode()
@@ -351,7 +332,6 @@ namespace mShield {
     /**
      * Select the value of the infrared key that you want to be pressed.
      */
-    //% blockId=infrared_button
     //% group="Infrared sensor"
     //% irButton.fieldEditor="gridpicker"
     //% irButton.fieldOptions.columns=3
@@ -400,16 +380,16 @@ namespace mShield {
     //% block="set %index PWM pluse width is %pulseWidth"
     //% pulseWidth.min=0 pulseWidth.max=200
     //% pulseWidth.defl=0
-    export function extendPwmControl(index: PwmIndex, pulseWidth: number): void {
+    export function extendPwmControl(index: PwmAndServoIndex, pulseWidth: number): void {
 
         let buf = pins.createBuffer(2)
-        if (index == PwmIndex.S1)
+        if (index == PwmAndServoIndex.S1)
             buf[0] = 0x10;
-        else if (index == PwmIndex.S2)
+        else if (index == PwmAndServoIndex.S2)
             buf[0] = 0x11;
-        else if (index == PwmIndex.S3)
+        else if (index == PwmAndServoIndex.S3)
             buf[0] = 0x12;
-        else if (index == PwmIndex.S4)
+        else if (index == PwmAndServoIndex.S4)
             buf[0] = 0x13;
         buf[1] = pulseWidth;
         pins.i2cWriteBuffer(i2cAddr, buf);
@@ -426,7 +406,7 @@ namespace mShield {
     //% weight=348
     //% block="set %index %servoType servo angle to %angle°"
     //% angle.defl=0
-    export function extendServoControl(index: ServoIndex, servoType: ServoType, angle: number): void {
+    export function extendServoControl(index: PwmAndServoIndex, servoType: ServoType, angle: number): void {
         let angleMap: number
         if (servoType == ServoType.Servo90) {
             angleMap = Math.map(angle, 0, 90, 50, 250);
@@ -441,13 +421,13 @@ namespace mShield {
         }
 
         let buf = pins.createBuffer(2)
-        if (index == ServoIndex.S1)
+        if (index == PwmAndServoIndex.S1)
             buf[0] = 0x14;
-        else if (index == ServoIndex.S2)
+        else if (index == PwmAndServoIndex.S2)
             buf[0] = 0x15;
-        else if (index == ServoIndex.S3)
+        else if (index == PwmAndServoIndex.S3)
             buf[0] = 0x16;
-        else if (index == ServoIndex.S4)
+        else if (index == PwmAndServoIndex.S4)
             buf[0] = 0x17;
         buf[1] = angleMap;
         pins.i2cWriteBuffer(i2cAddr, buf);
@@ -464,7 +444,7 @@ namespace mShield {
     //% block="set %index 360° servo speed to %speed\\%"
     //% speed.min=-100 speed.max=100
     //% speed.defl=0
-    export function continuousServoControl(index: ServoIndex, speed: number): void {
+    export function continuousServoControl(index: PwmAndServoIndex, speed: number): void {
         speed = Math.map(speed, -100, 100, 0, 180)
         extendServoControl(index, ServoType.Servo180, speed)
     }
