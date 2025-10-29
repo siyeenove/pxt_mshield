@@ -309,18 +309,16 @@ namespace mShield {
     //% group="Infrared sensor"
     //% weight=360
     //% block="on IR receiving"
-    export function irCallBack(handler: () => void) {  
+    export function irCallBack(handler: () => void) {
         //handler is the functional argument to the irCallback function and is the block
         //to be executed inside the irCallback function generation block.
         pins.setPull(DigitalPin.P12, PinPullMode.PullUp)
-        //A trigger event is registered, and handler is the function to execute to trigger the event.
-        control.onEvent(299, 3500, handler)
         control.inBackground(() => {
             while (true) {
+                // irVal = 8-bit command + 8-bit command inverse code
                 irVal = irCode()
-                if (irVal != 0xff00) {
-                    //Fires the event registered above（control.onEvent（））
-                    control.raiseEvent(299, 3500, EventCreationMode.CreateAndFire) 
+                if (irVal > 0xff) {   
+                    handler()
                 }
                 basic.pause(20)
             }

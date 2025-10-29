@@ -7,17 +7,17 @@ namespace mShieldInfrared {
     int ir_addr = 0x00;
     int data;
 
-    int logic_value(){                       //A function to read the logical values "0" and "1".
+    int logic_value(){   //A function to read the logical values "0" and "1".
         uint32_t lasttime = system_timer_current_time_us();
         uint32_t nowtime;
-        while(!uBit.io.P12.getDigitalValue());                           //Wait for the low level
+        while(!uBit.io.P12.getDigitalValue());                          //Wait for the low level
         nowtime = system_timer_current_time_us();
-        if((nowtime - lasttime) > 400 && (nowtime - lasttime) < 700){   //low level 560us
-            while(uBit.io.P12.getDigitalValue());                        //high level, wait
+        if((nowtime - lasttime) > 350 && (nowtime - lasttime) < 850){   //low level 560us
+            while(uBit.io.P12.getDigitalValue());                       //high level, wait
             lasttime = system_timer_current_time_us();
-            if((lasttime - nowtime)>400 && (lasttime - nowtime) < 700){ //low level 560us
+            if((lasttime - nowtime)>350 && (lasttime - nowtime) < 850){ //low level 560us
                 return 0;
-            }else if((lasttime - nowtime)>1500 && (lasttime - nowtime) < 1800){//high leve 1.7ms
+            }else if((lasttime - nowtime)>1350 && (lasttime - nowtime) < 1950){//high leve 1.7ms
                 return 1;
         }
         }
@@ -27,24 +27,31 @@ namespace mShieldInfrared {
 
     void pulse_deal(){
         int i;
+        int num;
         ir_addr=0x00;  //clear operation
         for(i=0; i<16;i++ )
         {
-        if(logic_value() == 1)
-        {
-            ir_addr |=(1<<i);
-        }
+            num = logic_value();
+            if(num == 1)
+            {
+                ir_addr |=(1<<i);
+            }else if (num == -1) {
+                ir_addr = 0;
+                break;
+            }
         }
         //Parse the CMD instruction in the remote control encoding.
         ir_code=0x00;  //clear operation
         for(i=0; i<16;i++ )
         {
-        if(logic_value() == 1)
-        {
-            ir_code |=(1<<i);
+            if(logic_value() == 1)
+            {
+                ir_code |=(1<<i);
+            }else if (num == -1) {
+                ir_code = 0; 
+                break;
+            }
         }
-        }
-
     }
 
     void remote_decode(void){
@@ -54,7 +61,7 @@ namespace mShieldInfrared {
         while(uBit.io.P12.getDigitalValue()){//high level, wait
             nowtime = system_timer_current_time_us();
             if((nowtime - lasttime) > 100000){//More than 100 milliseconds, indicating that no key was pressed.
-                ir_code = 0xff00;
+                ir_code = 0xffff;
                 return;
             }
         }
@@ -62,7 +69,7 @@ namespace mShieldInfrared {
         lasttime = system_timer_current_time_us();
         while(!uBit.io.P12.getDigitalValue());//low level, wait
         nowtime = system_timer_current_time_us();
-        if((nowtime - lasttime) < 10000 && (nowtime - lasttime) > 8000){//9ms
+        if((nowtime - lasttime) < 10000 && (nowtime - lasttime) > 5000){//9ms
             while(uBit.io.P12.getDigitalValue());//high level, wait
             lasttime = system_timer_current_time_us();
             // 4.5ms, the infrared protocol header is received and the data is newly sent. Start parsing logic 0 and 1
