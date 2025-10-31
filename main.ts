@@ -129,16 +129,16 @@ namespace mShield {
         LithiumBattery2 = 6
     }
 
-    let irVal = 0
     let motor1Speed = 0
     let motor2Speed = 0
 
+    // For Ir receiver
+    let irVal = 0
     let irstate: number;
     let state: number;
 
     //The I2C speed is 100Khz, and the slave address is 0x29
     let i2cAddr: number = 0x29;
-
 
     /**
     * Set the speed and direction of the motors
@@ -303,6 +303,9 @@ namespace mShield {
         return 0;
     }
 
+    //const IR_EVENT_SOURCE = 5299
+    //const IR_EVENT_VALUE  = 3500
+    
     /**
       * Run code when a button is pressed on the IR remote.
       */
@@ -310,15 +313,24 @@ namespace mShield {
     //% weight=360
     //% block="on IR receiving"
     export function irCallBack(handler: () => void) {
-        //handler is the functional argument to the irCallback function and is the block
-        //to be executed inside the irCallback function generation block.
+        // handler is the functional argument to the irCallback function and is the block
+        // to be executed inside the irCallback function generation block.
         pins.setPull(DigitalPin.P12, PinPullMode.PullUp)
+
+        // https://github.com/lancaster-university/codal-core/blob/8c8366f9a1e92da69f90fe816456c4b9c42ffd13/inc/core/CodalComponent.h#L85
+        // A trigger event is registered, and handler is the function to execute to trigger the event.
+        //control.onEvent(IR_EVENT_SOURCE, IR_EVENT_VALUE, handler)
+
         control.inBackground(() => {
             while (true) {
                 // irVal = 8-bit command + 8-bit command inverse code
                 irVal = irCode()
-                if (irVal > 0xff) {   
-                    handler()
+                if (irVal > 0xff) {
+                    // Call the handler function directly.
+                    handler()  
+
+                    // Triggers the event, which fires the event registered above (control.onEvent()).
+                    //control.raiseEvent(IR_EVENT_SOURCE, IR_EVENT_VALUE, EventCreationMode.CreateAndFire)
                 }
                 basic.pause(20)
             }
