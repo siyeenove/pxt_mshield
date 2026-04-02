@@ -20,6 +20,13 @@ namespace mShield {
         AllMotors = 3
     }
 
+    export enum MotorMode {
+        //%block="brake"
+        Brake = 1,
+        //%block="coast"
+        Coast = 0
+    }
+
     export enum Leds {
         //%block="20% LED"
         LED20 = 1,
@@ -31,13 +38,6 @@ namespace mShield {
         LED80 = 4,
         //%block="all LEDs"
         AllLED = 5
-    }
-
-    export enum LedState {
-        //%block="ON"
-        ON = 1,
-        //%block="OFF"
-        OFF = 0
     }
 
     export enum S1ToS4Type {
@@ -233,6 +233,29 @@ namespace mShield {
         }
     }
 
+    /** 
+     * Motors brake.
+     * @param motor - The motors of mShield.
+     */
+    //% group="Motors"
+    //% weight=377
+    //%block="set %motor to %mode"
+    export function wheelBrake(motor: Motors, mode: MotorMode): void {
+        let i2cBuffer = pins.createBuffer(2)
+
+        if (motor == Motors.Motor1 || motor == Motors.AllMotors) {
+            motor1Speed = 0;
+            i2cBuffer[0] = 0x19;
+            i2cBuffer[1] = mode;
+            pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
+        }
+        if (motor == Motors.Motor2 || motor == Motors.AllMotors) {
+            motor2Speed = 0;
+            i2cBuffer[0] = 0x1a;
+            i2cBuffer[1] = mode;
+            pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
+        }
+    }
 
     /** 
      * Motors speed calibration.
@@ -242,7 +265,7 @@ namespace mShield {
      * @param offset1 - Motor2 offset. eg: -10--0
      */
     //% group="Motors"
-    //% weight=377
+    //% weight=376
     //%block="motors speed offset: motor1 %offset1 motor2 %offset2"
     //% offset1.min=-10 offset1.max=0
     //% offset2.min=-10 offset2.max=0
@@ -498,6 +521,22 @@ namespace mShield {
             batLevel = 100;
         
         return batLevel; 
+    }
+
+    /**
+     * Read the battery voltage value.
+     * Return 0--25.5
+     */
+    //% group="Battery"
+    //% weight=339
+    //% block="battery voltage"
+    export function batteryVoltage(): number {
+        let i2cBuffer = pins.createBuffer(1);
+        i2cBuffer[0] = 0x1B;
+        pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
+
+        let batVolt = pins.i2cReadNumber(i2cAddr, NumberFormat.UInt8LE, false);
+        return batVolt/10;
     }
 
     /**
