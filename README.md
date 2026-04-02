@@ -33,6 +33,12 @@ mShield.wheelStop(mShield.Motors.AllMotors)
 ```
 
 ```JavaScript
+//Set mShield motor1 and motor2 to brake or coast.  
+//The braking function consumes a lot of power.
+mShield.wheelBrake(mShield.Motors.Motor1, mShield.MotorMode.Brake)    
+```
+
+```JavaScript
 //When the speed of the motors of the mShield board is inconsistent due to hardware reasons, 
 //this function adjusts the speed of the motors and is permanently stored inside the mShield.    
 mShield.motorsAdjustment(0, 0)    
@@ -97,6 +103,13 @@ basic.forever(function () {
 basic.forever(function () {
     basic.showNumber(mShield.batteryLevel(mShield.BatteryType.AA3))
     basic.pause(1000)
+})
+```
+
+```JavaScript
+//Display battery voltage.
+basic.forever(function () {
+    basic.showNumber(mShield.batteryVoltage())
 })
 ```
 
