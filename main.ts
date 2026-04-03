@@ -457,19 +457,19 @@ namespace mShield {
 
         let buf = pins.createBuffer(2)
         buf[1] = angleMap;
-        if (index == PwmAndServoIndex.S1){
+        if (index == PwmAndServoIndex.S1 || index == PwmAndServoIndex.All){
             buf[0] = 0x14;
             pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        if (index == PwmAndServoIndex.S2){
+        if (index == PwmAndServoIndex.S2 || index == PwmAndServoIndex.All){
             buf[0] = 0x15;
             pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        if (index == PwmAndServoIndex.S3){
+        if (index == PwmAndServoIndex.S3 || index == PwmAndServoIndex.All){
             buf[0] = 0x16;
             pins.i2cWriteBuffer(i2cAddr, buf);
         }
-        if (index == PwmAndServoIndex.S4){
+        if (index == PwmAndServoIndex.S4 || index == PwmAndServoIndex.All){
             buf[0] = 0x17;
             pins.i2cWriteBuffer(i2cAddr, buf);
         }
