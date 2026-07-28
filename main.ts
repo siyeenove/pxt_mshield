@@ -536,7 +536,7 @@ namespace mShield {
         pins.i2cWriteBuffer(i2cAddr, i2cBuffer);
 
         let batVolt = pins.i2cReadNumber(i2cAddr, NumberFormat.UInt8LE, false);
-        return batVolt/10;
+        return batVolt*50;
     }
 
     /**
