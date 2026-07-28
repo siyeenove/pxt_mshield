@@ -525,7 +525,7 @@ namespace mShield {
 
     /**
      * Read the battery voltage value.
-     * Return 0--25.5
+     * Return 0--9000mV
      */
     //% group="Battery"
     //% weight=339
